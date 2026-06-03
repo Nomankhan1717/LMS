@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Leave Management</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="wrap">4
+        <div class="brand">
+          <div class="brand-badge">U</div>
+          <div>
+            <div class="brand-title">University Leave</div>
+            <div class="brand-sub">Management System</div>
+          </div>
+        </div>
+        <div class="flex-row">
+          <span id="user-email" class="hidden small"></span>
+          <button id="sign-out" class="hidden btn btn-dark">Sign out</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <h1>University Leave Management</h1>
+          <p>Apply for leave, track application status, and manage approvals. Students submit requests; admins review and approve or reject.</p>
+        </div>
+      </section>
+
+      <section id="auth-card" class="">
+        <div class="flex-row" style="justify-content: space-between;">
+          <h2 id="auth-title">Sign in</h2>
+          <div class="small">
+            <button id="toggle-auth" style="text-decoration: underline; background:none; border:none; cursor:pointer;">Create an account</button>
+          </div>
+        </div>
+        <form id="auth-form" class="grid">
+          <label>
+            <span class="label">Email</span>
+            <input id="auth-email" type="email" required class="input" />
+          </label>
+          <label>
+            <span class="label">Password</span>
+            <input id="auth-password" type="password" required class="input" />
+          </label>
+          <button id="auth-submit" class="btn btn-primary mt-24">Sign in</button>
+          <div id="auth-error" class="hidden" style="border:1px solid #fecaca; background:#fee2e2; color:#7f1d1d; padding:10px; border-radius:8px; font-size:14px;"></div>
+        </form>
+      </section>
+
+      <section id="select-role" class="hidden">
+        <h2>Select your role</h2>
+        <p class="small">We could not detect your role. Choose how you want to use the app.</p>
+        <div class="grid-row two" style="margin-top:12px;">
+          <button data-role="student" class="card" style="text-align:left;">
+            <div class="label" style="font-size:14px; font-weight:600; margin-bottom:6px;">Student</div>
+            <div class="small">Apply for leave and track status</div>
+          </button>
+          <button data-role="admin" class="card" style="text-align:left;">
+            <div class="label" style="font-size:14px; font-weight:600; margin-bottom:6px;">Admin</div>
+            <div class="small">Review, approve, and manage leaves</div>
+          </button>
+        </div>
+      </section>
+
+      <section id="student-dashboard" class="hidden">
+        <div class="card">
+          <h2>Apply for Leave</h2>
+          <form id="leave-form" class="grid two" style="margin-top:12px;">
+            <label><span class="label">Enrollment Number *</span><input id="f-enrollment" required class="input" /></label>
+            <label><span class="label">Name *</span><input id="f-name" required class="input" /></label>
+            <label><span class="label">Course *</span><input id="f-course" required class="input" /></label>
+            <label><span class="label">Department *</span><input id="f-department" required class="input" /></label>
+            <label><span class="label">Semester *</span><input id="f-semester" required class="input" /></label>
+            <label><span class="label">Leave Start Date *</span><input id="f-start" type="date" required class="input" /></label>
+            <label><span class="label">Leave End Date *</span><input id="f-end" type="date" required class="input" /></label>
+            <div style="grid-column: 1 / -1;"><label><span class="label">Reason for Leave *</span><textarea id="f-reason" required class="textarea"></textarea></label></div>
+            <div class="flex-end" style="grid-column: 1 / -1;"><button type="submit" id="submit-leave" class="btn btn-primary">Submit</button>
+</div>
+          </form>
+        </div>
+
+        <div class="card">
+          <div class="flex-row" style="justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <h2>My Leave Requests</h2>
+              <p class="small">View status of your submissions</p>
+            </div>
+            <div class="toolbar">
+              <label><span class="label">Enrollment Number</span><input id="my-enrollment" class="input" placeholder="e.g. MUR2300307" /></label>
+              <button id="load-my" class="btn btn-dark">Load</button>
+            </div>
+          </div>
+          <div style="margin-top: 12px; overflow-x:auto;">
+            <table class="table">
+              <thead><tr>
+                <th>Enrollment</th>
+                <th>Name</th>
+                <th>Course</th>
+                <th>Dept</th>
+                <th>Sem</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Reason</th>
+                <th>Status</th>
+              </tr></thead>
+              <tbody id="my-rows"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="admin-dashboard" class="hidden">
+        <div class="card">
+          <div class="flex-row" style="justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <h2>Admin: Leave Requests</h2>
+              <p class="small">Filter and manage submissions</p>
+            </div>
+            <div class="toolbar">
+              <input id="f-dept" placeholder="Department" class="input" />
+              <input id="f-sem" placeholder="Semester" class="input" />
+              <select id="f-status" class="select"><option value="">All Status</option><option>Pending</option><option>Approved</option><option>Rejected</option></select>
+              <button id="apply-filters" class="btn btn-dark">Apply</button>
+            </div>
+          </div>
+          <div style="margin-top: 12px; overflow-x:auto;">
+            <table class="table">
+              <thead><tr>
+                <th>Enrollment</th>
+                <th>Name</th>
+                <th>Course</th>
+                <th>Dept</th>
+                <th>Sem</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr></thead>
+              <tbody id="admin-rows"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="main.js"></script>
+
+  </body>
+</html>
